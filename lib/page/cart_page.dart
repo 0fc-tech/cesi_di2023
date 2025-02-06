@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../model/cart.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({super.key});
@@ -10,8 +13,20 @@ class CartPage extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text('Panier'),
       ),
-      body: Stack(children: [LineTotalPrice(), InfoEmptyCart()]),
+      body:
+          (context.watch<Cart>().qty > 0)
+              ? ListProductsCart()
+              : Stack(children: [LineTotalPrice(), InfoEmptyCart()]),
     );
+  }
+}
+
+class ListProductsCart extends StatelessWidget {
+  const ListProductsCart({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
   }
 }
 
@@ -24,6 +39,7 @@ class InfoEmptyCart extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          Text(context.watch<Cart>().qty.toString()),
           Text("Votre panier est acutellement vide"),
           Icon(Icons.image),
         ],
@@ -41,7 +57,10 @@ class LineTotalPrice extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [Text("Votre panier total est de "), Text("0.00€")],
+        children: [
+          Text("Votre panier total est de "),
+          Text("${context.watch<Cart>().totalPrice}€"),
+        ],
       ),
     );
   }

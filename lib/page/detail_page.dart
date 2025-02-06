@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
+import '../model/cart.dart';
 import '../model/product.dart';
 
 class DetailPage extends StatelessWidget {
@@ -43,7 +45,9 @@ class DetailPage extends StatelessWidget {
             child: SizedBox(
               width: MediaQuery.of(context).size.width,
               child: FilledButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.read<Cart>().add(product);
+                },
                 child: const Text('Ajouter au panier'),
               ),
             ),

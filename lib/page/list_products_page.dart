@@ -1,8 +1,10 @@
 import 'dart:convert';
 
+import 'package:cesi_shop/model/cart.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart';
+import 'package:provider/provider.dart';
 
 import '../model/product.dart';
 
@@ -63,7 +65,9 @@ class ListProductsPage extends StatelessWidget {
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     trailing: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        context.read<Cart>().add(snapshot.data![index]);
+                      },
                       child: Text("Ajouter".toUpperCase()),
                     ),
                   ),
