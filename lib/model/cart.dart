@@ -14,6 +14,11 @@ class Cart extends ChangeNotifier {
     notifyListeners();
   }
 
+  void removeAll() {
+    products.clear();
+    notifyListeners();
+  }
+
   int get qty => products.length;
   num get totalPrice =>
       products.fold(0, (prevPrice, product) => prevPrice + product.price);

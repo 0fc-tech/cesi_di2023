@@ -15,7 +15,12 @@ class CartPage extends StatelessWidget {
       ),
       body:
           (context.watch<Cart>().qty > 0)
-              ? ListProductsCart()
+              ? Column(
+                children: [
+                  LineTotalPrice(),
+                  Flexible(child: ListProductsCart()),
+                ],
+              )
               : Stack(children: [LineTotalPrice(), InfoEmptyCart()]),
     );
   }
@@ -26,7 +31,36 @@ class ListProductsCart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Consumer<Cart>(
+      builder: (context, cart, child) {
+        return ListView.builder(
+          itemCount: cart.qty,
+          itemBuilder: (context, index) {
+            final product = cart.products[index];
+            return ListTile(
+              leading: Image.network(
+                product.image,
+                loadingBuilder:
+                    (_, child, ___) =>
+                        SizedBox(height: 48, width: 48, child: child),
+              ),
+              title: Text(product.title),
+              subtitle: Text(
+                product.priceEuro(),
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              trailing: TextButton(
+                onPressed: () {
+                  context.read<Cart>().remove(product);
+                },
+                child: Text("Supprimer".toUpperCase()),
+              ),
+            );
+          },
+        );
+      },
+    );
+    ;
   }
 }
 
