@@ -29,7 +29,10 @@ class ListProductsPage extends StatelessWidget {
             onPressed: () {
               context.go("/cart");
             },
-            icon: Icon(Icons.shopping_cart),
+            icon: Badge(
+              label: Text(context.watch<Cart>().qty.toString()),
+              child: Icon(Icons.shopping_cart),
+            ),
           ),
         ],
         title: Text("Saisie Shop"),
